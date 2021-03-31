@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   # GET /games or /games.json
   def index
-    @games = Game.all
+    @games = Game.with_attached_pieces.all
   end
 
   # GET /games/1 or /games/1.json
@@ -59,11 +59,12 @@ class GamesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_game
-      @game = Game.find(params[:id])
+      @game = Game.with_attached_images.find(params[:id])
     end
+  
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:name, :rule)
+      params.require(:game).permit(:name, :rule, pieces:[])
     end
 end
